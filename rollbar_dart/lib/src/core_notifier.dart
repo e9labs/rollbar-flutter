@@ -45,6 +45,7 @@ class CoreNotifier {
       };
 
     var data = Data()
+      ..userId = _config.userId
       ..body = body
       ..timestamp = DateTime.now().microsecondsSinceEpoch
       ..language = 'dart'
