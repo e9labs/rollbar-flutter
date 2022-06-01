@@ -5,6 +5,7 @@ import 'level.dart';
 /// Contains the data for the occurrence to be sent to Rollbar.
 class Data {
   Map<String, String> notifier;
+  String userId;
   String environment;
   Client client;
   String platform;
@@ -29,6 +30,12 @@ class Data {
       'timestamp': timestamp,
       'body': body.toJson(),
     };
+
+    if (userId != null) {
+      result['person'] = {
+        'id': userId,
+      };
+    }
 
     addIfNotNull(result, 'framework', framework);
     addIfNotNull(result, 'code_version', codeVersion);

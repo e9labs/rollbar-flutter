@@ -6,6 +6,7 @@ import 'sender.dart';
 /// Configuration for the [Rollbar] notifier.
 class Config {
   final String accessToken;
+  final String userId;
   final String endpoint;
   final String environment;
   final String framework;
@@ -18,6 +19,7 @@ class Config {
 
   Config._(
       this.accessToken,
+      this.userId,
       this.endpoint,
       this.environment,
       this.framework,
@@ -35,6 +37,7 @@ class Config {
   Map<String, dynamic> toMap() {
     return {
       'accessToken': accessToken,
+      'userId': userId,
       'endpoint': endpoint,
       'environment': environment,
       'framework': framework,
@@ -50,6 +53,7 @@ class Config {
   /// Converts the [Map] instance into a [Config] object.
   static Config fromMap(Map<String, dynamic> values) {
     return (ConfigBuilder(values['accessToken'])
+          ..userId = values['userId']
           ..endpoint = values['endpoint']
           ..environment = values['environment']
           ..framework = values['framework']
@@ -65,6 +69,7 @@ class Config {
 
 class ConfigBuilder {
   final String accessToken;
+  String userId;
   String endpoint = 'https://api.rollbar.com/api/1/item/';
   String environment;
   String framework;
@@ -88,6 +93,7 @@ class ConfigBuilder {
 
   ConfigBuilder.from(Config config)
       : accessToken = config.accessToken,
+        userId = config.userId,
         endpoint = config.endpoint,
         environment = config.environment,
         framework = config.framework,
@@ -101,7 +107,7 @@ class ConfigBuilder {
   Config build() {
     var sender = this.sender;
     sender ??= _httpSender;
-    return Config._(accessToken, endpoint, environment, framework, codeVersion,
+    return Config._(accessToken, userId, endpoint, environment, framework, codeVersion,
         package, handleUncaughtErrors, includePlatformLogs, transformer, sender);
   }
 }
